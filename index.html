@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prayer Request Form</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa, #e4ecf7);
+      color: #1f2937;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 560px;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      text-align: center;
+    }
+
+    p.subtitle {
+      margin: 0 0 24px;
+      text-align: center;
+      color: #6b7280;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+      width: 100%;
+      font: inherit;
+    }
+
+    input,
+    select,
+    textarea {
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      background: #fff;
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .radio-group {
+      margin-bottom: 18px;
+    }
+
+    .radio-option,
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .radio-option input,
+    .checkbox-row input {
+      width: auto;
+      margin: 0;
+    }
+
+    .radio-option label,
+    .checkbox-row label {
+      margin: 0;
+      font-weight: 500;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      background: #4f46e5;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s ease, opacity 0.2s ease;
+    }
+
+    button:hover { background: #4338ca; }
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .status {
+      display: none;
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 14px;
+      border: 1px solid transparent;
+    }
+
+    .status.success {
+      background: #ecfdf5;
+      color: #065f46;
+      border-color: #a7f3d0;
+    }
+
+    .status.error {
+      background: #fef2f2;
+      color: #991b1b;
+      border-color: #fecaca;
+    }
+
+    .note {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #6b7280;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 640px) {
+      .row { grid-template-columns: 1fr; }
+      .container { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Prayer Request</h1>
+    <p class="subtitle">Share your prayer request or praise report. Our church team will keep you in prayer.</p>
+
+    <form id="prayerForm">
+      <div class="row">
+        <div>
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Enter your name" />
+        </div>
+
+        <div>
+          <label for="type">Type</label>
+          <select id="type" name="type" required>
+            <option value="">Select one</option>
+            <option value="Prayer Request">Prayer Request</option>
+            <option value="Praise Report">Praise Report</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="message">Your message</label>
+      <textarea id="message" name="message" placeholder="Write your prayer request or praise report here..." required></textarea>
+
+      <label>Who can see this?</label>
+      <div class="radio-group">
+        <div class="radio-option">
+          <input type="radio" id="pastors" name="visibility" value="Pastors Only" required />
+          <label for="pastors">Pastors only</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" id="group" name="visibility" value="Share to Group" />
+          <label for="group">Pwede po ishare sa group</label>
+        </div>
+      </div>
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="anonymous" name="anonymous" />
+        <label for="anonymous">Submit as anonymous</label>
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <div class="status" id="statusMessage"></div>
+
+    <p class="note">
+      This form sends responses to your connected Google Sheet through Google Apps Script.
+    </p>
+  </div>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQ6qeDY4-1x5GrJ1ATB7Hn3X4Q7MWzGgDtiseQNt_5JyFaGj1QImeVifyFBlU8GHjH/exec";
+    const PLACEHOLDER_URL = "https://script.google.com/macros/s/AKfycbxQ6qeDY4-1x5GrJ1ATB7Hn3X4Q7MWzGgDtiseQNt_5JyFaGj1QImeVifyFBlU8GHjH/exec";
+
+    const form = document.getElementById('prayerForm');
+    const statusMessage = document.getElementById('statusMessage');
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    function showStatus(message, type) {
+      statusMessage.className = `status ${type}`;
+      statusMessage.textContent = message;
+      statusMessage.style.display = 'block';
+    }
+
+    function resetStatus() {
+      statusMessage.className = 'status';
+      statusMessage.textContent = '';
+      statusMessage.style.display = 'none';
+    }
+
+    async function submitPrayerRequest(payload) {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const rawText = await response.text();
+      let result;
+
+      try {
+        result = JSON.parse(rawText);
+      } catch (error) {
+        throw new Error(`Invalid server response: ${rawText || 'Empty response'}`);
+      }
+
+      if (!response.ok) {
+        throw new Error(result.message || `Request failed with status ${response.status}`);
+      }
+
+      return result;
+    }
+
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault();
+      resetStatus();
+
+      if (!SCRIPT_URL || SCRIPT_URL === PLACEHOLDER_URL) {
+        showStatus( "https://script.google.com/macros/s/AKfycbxQ6qeDY4-1x5GrJ1ATB7Hn3X4Q7MWzGgDtiseQNt_5JyFaGj1QImeVifyFBlU8GHjH/exec.", 'error');
+        return;
+      }
+
+      const anonymous = document.getElementById('anonymous').checked;
+      const nameField = document.getElementById('name');
+      const typeField = document.getElementById('type');
+      const messageField = document.getElementById('message');
+      const visibilityField = document.querySelector('input[name="visibility"]:checked');
+
+      const payload = {
+        name: anonymous ? 'Anonymous' : (nameField.value.trim() || 'Anonymous'),
+        type: typeField.value,
+        message: messageField.value.trim(),
+        visibility: visibilityField ? visibilityField.value : '',
+        anonymous: anonymous ? 'Yes' : 'No',
+        submittedAt: new Date().toISOString()
+      };
+
+      try {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Submitting...';
+
+        const result = await submitPrayerRequest(payload);
+
+        if (result.result === 'success') {
+          showStatus('Thank you. Your message has been submitted.', 'success');
+          form.reset();
+        } else {
+          throw new Error(result.message || 'Submission failed.');
+        }
+      } catch (error) {
+        showStatus(error.message || 'Submission failed. Please try again.', 'error');
+        console.error('Prayer request submission error:', error);
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Submit';
+      }
+    });
+
+    // Quick manual test helpers for browser console:
+    // window.__prayerFormTestPayload()
+    // window.__prayerFormConfig()
+    window.__prayerFormTestPayload = function () {
+      return {
+        name: 'Anonymous',
+        type: 'Prayer Request',
+        message: 'Please pray for my family.',
+        visibility: 'Pastors Only',
+        anonymous: 'Yes',
+        submittedAt: new Date().toISOString()
+      };
+    };
+
+    window.__prayerFormConfig = function () {
+      return {
+        scriptUrl: SCRIPT_URL,
+        isPlaceholder: SCRIPT_URL === PLACEHOLDER_URL
+      };
+    };
+  </script>
+</body>
+</html>
