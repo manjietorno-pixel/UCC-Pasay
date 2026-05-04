@@ -3,256 +3,574 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UCC Pasay Church Prayer and Praise Form</title>
+  <title>UCC Pasay – Prayer & Praise Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
 
   <style>
+    :root {
+      --navy:    #0e2a5c;
+      --royal:   #1a4494;
+      --sky:     #3a7bd5;
+      --light:   #ddeaff;
+      --white:   #ffffff;
+      --gold:    #c9a84c;
+      --text:    #1a2540;
+      --muted:   #5a6a8a;
+      --border:  #c5d5f0;
+      --success-bg: #e8f7ed;
+      --success:    #1d6b35;
+      --error-bg:   #fdeaea;
+      --error:      #9b1c1c;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      margin: 0;
-      padding: 20px;
-    }
-.radio-group {
-  text-align: left;
-}
-
-.radio-group label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  justify-content: flex-start;
-  margin-bottom: 8px;
-}
-
-.radio-group input[type="radio"],
-.radio-group input[type="checkbox"] {
-  width: auto;
-  margin: 0;
-}
-    .container {
-      max-width: 500px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      font-family: 'Lato', sans-serif;
+      background: linear-gradient(160deg, #0e2a5c 0%, #1a4494 50%, #2558c0 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 32px 16px 48px;
     }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 5px;
-    }
-
-    .subtitle {
-      text-align: center;
-      font-size: 14px;
-      color: #666;
-      margin-top: 0;
-      margin-bottom: 20px;
-    }
-
-    .verse-box {
-      background: #eef4ff;
-      border-left: 4px solid #2d6cdf;
-      padding: 12px;
-      border-radius: 6px;
-      font-size: 14px;
-      margin-bottom: 20px;
-      color: #333;
-      line-height: 1.4;
-    }
-
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 15px;
-    }
-
-    input, select, textarea {
+    /* ── Card ── */
+    .card {
       width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-      font-size: 14px;
+      max-width: 520px;
+      background: var(--white);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(10,30,80,0.35);
     }
 
-    textarea {
+    /* ── Header ── */
+    .header {
+      background: var(--navy);
+      padding: 32px 28px 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .header::after {
+      content: '';
+      display: block;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin-top: 20px;
+    }
+
+    .church-logo {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 14px;
+      background: rgba(255,255,255,0.08);
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      color: var(--white);
+      font-size: 1.55rem;
+      letter-spacing: 0.02em;
+      line-height: 1.25;
+    }
+
+    .header h1 span {
+      color: var(--gold);
+    }
+
+    .header p {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.6);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 300;
+    }
+
+    /* ── Verse Box ── */
+    .verse-wrap {
+      background: linear-gradient(135deg, #eef4ff 0%, #ddeaff 100%);
+      border-left: 4px solid var(--gold);
+      margin: 22px 24px 0;
+      border-radius: 8px;
+      padding: 16px 18px;
+    }
+
+    .verse-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .verse-en {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--navy);
+      line-height: 1.55;
+    }
+
+    .verse-ref {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--royal);
+      margin-top: 6px;
+    }
+
+    .verse-tl {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.45;
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+    }
+
+    /* ── Form Body ── */
+    .form-body {
+      padding: 22px 24px 28px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .field label .req {
+      color: var(--sky);
+      margin-left: 2px;
+    }
+
+    .field input[type="text"],
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: #f8faff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--sky);
+      box-shadow: 0 0 0 3px rgba(58,123,213,0.15);
+      background: #fff;
+    }
+
+    .field textarea {
       resize: vertical;
       min-height: 110px;
     }
 
-    .radio-group {
-      margin-top: 10px;
+    /* Anon row */
+    .anon-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
     }
 
-    .radio-group label {
-      font-weight: normal;
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 12px;
-      background: #2d6cdf;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
+    .anon-row input[type="checkbox"] {
+      accent-color: var(--royal);
+      width: 16px;
+      height: 16px;
       cursor: pointer;
     }
 
-    button:hover {
-      background: #1f4fbf;
+    .anon-row span {
+      font-size: 0.82rem;
+      color: var(--muted);
+      cursor: pointer;
     }
 
+    /* Radio visibility */
+    .vis-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .vis-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #f8faff;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 14px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .vis-option:has(input:checked) {
+      border-color: var(--sky);
+      background: #eef4ff;
+    }
+
+    .vis-option input[type="radio"] {
+      accent-color: var(--royal);
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .vis-text strong {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .vis-text small {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    /* Type pills */
+    .type-pills {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .pill-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 10px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      background: #f8faff;
+      transition: border-color 0.2s, background 0.2s;
+      text-align: center;
+    }
+
+    .pill-option:has(input:checked) {
+      border-color: var(--sky);
+      background: #eef4ff;
+    }
+
+    .pill-option input { display: none; }
+
+    .pill-icon { font-size: 1.6rem; }
+
+    .pill-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+
+    .pill-sublabel {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    /* Submit */
+    .submit-btn {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--royal) 100%);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      text-transform: uppercase;
+    }
+
+    .submit-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+    .submit-btn:active { transform: translateY(0); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* Status */
     .status {
       display: none;
-      margin-top: 15px;
-      padding: 10px;
-      border-radius: 6px;
-      font-size: 14px;
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-align: center;
     }
 
-    .success {
-      background: #e8f7ed;
-      color: #1d6b35;
-      border: 1px solid #b7e2c1;
-    }
+    .success { background: var(--success-bg); color: var(--success); border: 1px solid #b7e2c1; display: block; }
+    .error   { background: var(--error-bg);   color: var(--error);   border: 1px solid #f3bcbc; display: block; }
 
-    .error {
-      background: #fdeaea;
-      color: #9b1c1c;
-      border: 1px solid #f3bcbc;
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 14px 24px 20px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
     }
   </style>
 </head>
-
 <body>
 
-  <div class="container">
-    <h2>UCC Pasay Church</h2>
-    <p class="subtitle">Prayer and Praise Form</p>
+  <div class="card">
 
-    <div id="verseBox" class="verse-box"></div>
+    <!-- Header -->
+    <div class="header">
+      <div class="church-logo">✝</div>
+      <h1>UCC <span>Pasay</span> Church</h1>
+      <p>Prayer &amp; Praise Form</p>
+    </div>
 
-    <form id="prayerForm">
+    <!-- Verse -->
+    <div class="verse-wrap">
+      <div class="verse-label">✦ Verse of the Moment</div>
+      <div class="verse-en" id="verseEn"></div>
+      <div class="verse-ref" id="verseRef"></div>
+      <div class="verse-tl" id="verseTl"></div>
+    </div>
 
-      <label>Pangalan</label>
-      <input type="text" id="name" placeholder="Ilagay ang pangalan" />
+    <!-- Form -->
+    <div class="form-body">
+      <form id="prayerForm">
 
-      <div class="radio-group">
-        <label>
-          <input type="checkbox" id="anonymous" />
-          Gawing Anonymous
-        </label>
-      </div>
+        <!-- Name -->
+        <div class="field">
+          <label>Pangalan <span class="req"></span></label>
+          <input type="text" id="name" placeholder="Ilagay ang iyong pangalan" />
+          <div class="anon-row">
+            <input type="checkbox" id="anonymous" />
+            <span onclick="document.getElementById('anonymous').click()">Isumite nang Anonymous</span>
+          </div>
+        </div>
 
-      <label>Contact Number</label>
-      <input type="text" id="contact" placeholder="Hal. 09123456789" required />
+        <!-- Contact -->
+        <div class="field">
+          <label>Contact Number <span class="req">*</span></label>
+          <input type="text" id="contact" placeholder="Hal. 09123456789" required />
+        </div>
 
-      <label>Uri ng Mensahe</label>
-      <select id="type" required>
-        <option value="">Pumili</option>
-        <option value="Prayer Request">Prayer Request / Kahilingan sa Panalangin</option>
-        <option value="Praise Report">Praise Report / Pasasalamat</option>
-      </select>
+        <div class="divider"></div>
 
-      <label>Detalye ng Mensahe</label>
-      <textarea id="request" placeholder="Ilagay ang iyong prayer request o praise report" required></textarea>
+        <!-- Type -->
+        <div class="field">
+          <label>Uri ng Mensahe <span class="req">*</span></label>
+          <div class="type-pills">
+            <label class="pill-option">
+              <input type="radio" name="msgType" value="Prayer Request" required />
+              <span class="pill-icon">🙏</span>
+              <span class="pill-label">Prayer Request</span>
+              <span class="pill-sublabel">Kahilingan sa Panalangin</span>
+            </label>
+            <label class="pill-option">
+              <input type="radio" name="msgType" value="Praise Report" />
+              <span class="pill-icon">🎉</span>
+              <span class="pill-label">Praise Report</span>
+              <span class="pill-sublabel">Pasasalamat</span>
+            </label>
+            <label class="pill-option">
+              <input type="radio" name="msgType" value="Concern or Question" />
+              <span class="pill-icon">💬</span>
+              <span class="pill-label">Concern / Question</span>
+              <span class="pill-sublabel">Katanungan o Alalahanin</span>
+            </label>
+          </div>
+        </div>
 
-      <label>Visibility</label>
-      <div class="radio-group">
-        <label>
-          <input type="radio" name="visibility" value="Private" checked />
-          Private — Para sa Pastors at Admin lamang
-        </label>
-        <label>
-          <input type="radio" name="visibility" value="Public" />
-          Public — Maaaring ibahagi sa iba para sa panalangin at encouragement
-        </label>
-      </div>
+        <!-- Message -->
+        <div class="field">
+          <label>Detalye ng Mensahe <span class="req">*</span></label>
+          <textarea id="request" placeholder="Ilagay ang iyong prayer request, praise report, katanungan, o alalahanin dito..." required></textarea>
+        </div>
 
-      <button type="submit" id="submitBtn">Submit</button>
+        <div class="divider"></div>
 
-      <div id="statusMessage" class="status"></div>
+        <!-- Visibility -->
+        <div class="field">
+          <label>Visibility ng Mensahe</label>
+          <div class="vis-group">
+            <label class="vis-option">
+              <input type="radio" name="visibility" value="Private" checked />
+              <div class="vis-text">
+                <strong>🔒 Private</strong>
+                <small>Para sa Pastors at Admin lamang. Hindi ibabahagi.</small>
+              </div>
+            </label>
+            <label class="vis-option">
+              <input type="radio" name="visibility" value="Public" />
+              <div class="vis-text">
+                <strong>🌐 Public</strong>
+                <small>Maaaring ibahagi sa kongregasyon para sa panalangin at encouragement.</small>
+              </div>
+            </label>
+          </div>
+        </div>
 
-    </form>
+        <button type="submit" class="submit-btn" id="submitBtn">Isumite ang Mensahe</button>
+
+        <div id="statusMessage" class="status"></div>
+
+      </form>
+    </div>
+
+    <div class="footer">
+      Ang inyong mensahe ay itinuturing na sagrado at may malalim na pag-iingat. ✦ UCC Pasay Church
+    </div>
   </div>
 
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLF6WWKklRmAXBz0eIKXJhRW_jA5T7yOIPVxguZB3yRLvVX8lqoEbBr6KHU4FGA-M/exec";
 
-    const bibleVerses = [
-      "Jeremiah 33:3 — Tumawag ka sa Akin, at sasagutin kita.",
-      "Matthew 21:22 — Anuman ang hingin ninyo sa panalangin, kung kayo ay sumasampalataya, tatanggapin ninyo.",
-      "Philippians 4:6 — Huwag kayong mabalisa sa anumang bagay; idulog ninyo sa Dios ang lahat sa panalangin.",
-      "1 John 5:14 — Kung humingi tayo ayon sa Kanyang kalooban, pinakikinggan Niya tayo.",
-      "Mark 11:24 — Anuman ang hingin ninyo sa panalangin, maniwala kayong natanggap na ninyo.",
-      "Psalm 100:4 — Pumasok kayo sa Kanyang mga pintuan na may pasasalamat.",
-      "Psalm 107:1 — Magpasalamat kayo sa Panginoon, sapagkat Siya ay mabuti."
+    // NKJV verses with Tagalog parallel
+    const verses = [
+      {
+        en:  "Call to Me, and I will answer you, and show you great and mighty things, which you do not know.",
+        ref: "Jeremiah 33:3 (NKJV)",
+        tl:  "Tumawag ka sa Akin, at sasagutin kita, at ipapakita ko sa iyo ang mga dakila at di-malirip na mga bagay."
+      },
+      {
+        en:  "And whatever things you ask in prayer, believing, you will receive.",
+        ref: "Matthew 21:22 (NKJV)",
+        tl:  "At anuman ang inyong hingin sa panalangin, kung kayo ay naniniwala, ay inyong matatanggap."
+      },
+      {
+        en:  "Be anxious for nothing, but in everything by prayer and supplication, with thanksgiving, let your requests be made known to God.",
+        ref: "Philippians 4:6 (NKJV)",
+        tl:  "Huwag kayong mabalisa sa anumang bagay; kundi sa lahat ng mga bagay, sa pamamagitan ng panalangin at pagmamakaawa na may pasasalamat, ay ipaalam ninyo ang inyong mga kahilingan sa Dios."
+      },
+      {
+        en:  "Now this is the confidence that we have in Him, that if we ask anything according to His will, He hears us.",
+        ref: "1 John 5:14 (NKJV)",
+        tl:  "At ito ang katiwalaang nasa kanya tayo, na kung humingi tayo ng anomang bagay ayon sa kanyang kalooban, ay dinidinig niya tayo."
+      },
+      {
+        en:  "Therefore I say to you, whatever things you ask when you pray, believe that you receive them, and you will have them.",
+        ref: "Mark 11:24 (NKJV)",
+        tl:  "Kaya nga sinasabi ko sa inyo, Ang lahat ng mga bagay na inyong hihilingin sa inyong pananalangin, ay manampalataya kayong inyong tinanggap na, at magkakaroon kayo noon."
+      },
+      {
+        en:  "Enter into His gates with thanksgiving, and into His courts with praise. Be thankful to Him, and bless His name.",
+        ref: "Psalm 100:4 (NKJV)",
+        tl:  "Pumasok kayo sa kanyang mga pintuan na may pasasalamat, at sa kanyang mga looban na may pagpuri. Magpasalamat kayo sa kanya, at purihin ang kanyang pangalan."
+      },
+      {
+        en:  "Oh, give thanks to the Lord, for He is good! For His mercy endures forever.",
+        ref: "Psalm 107:1 (NKJV)",
+        tl:  "Magpasalamat kayo sa Panginoon; sapagka't siya ay mabuti; sapagka't ang kaniyang kaawaan ay magpakailan man."
+      },
+      {
+        en:  "The effective, fervent prayer of a righteous man avails much.",
+        ref: "James 5:16b (NKJV)",
+        tl:  "Ang mataimtim na panalangin ng matuwid ay may malaking kisa."
+      },
+      {
+        en:  "Cast all your anxiety on Him because He cares for you.",
+        ref: "1 Peter 5:7 (NKJV)",
+        tl:  "Na ilagay ninyo sa kanya ang lahat ng inyong kabalisahan, sapagkat siya'y nagmamalasakit sa inyo."
+      }
     ];
 
-    const form = document.getElementById("prayerForm");
-    const statusMessage = document.getElementById("statusMessage");
-    const submitBtn = document.getElementById("submitBtn");
-
+    // Populate random verse on load
     window.addEventListener("load", function () {
-      const verseBox = document.getElementById("verseBox");
-      verseBox.textContent = bibleVerses[Math.floor(Math.random() * bibleVerses.length)];
+      const v = verses[Math.floor(Math.random() * verses.length)];
+      document.getElementById("verseEn").textContent  = "\u201C" + v.en + "\u201D";
+      document.getElementById("verseRef").textContent = "— " + v.ref;
+      document.getElementById("verseTl").textContent  = v.tl;
     });
 
-    function showStatus(message, type) {
-      statusMessage.textContent = message;
-      statusMessage.className = "status " + type;
-      statusMessage.style.display = "block";
+    const form          = document.getElementById("prayerForm");
+    const statusMessage = document.getElementById("statusMessage");
+    const submitBtn     = document.getElementById("submitBtn");
+
+    function showStatus(msg, type) {
+      statusMessage.textContent = msg;
+      statusMessage.className   = "status " + type;
     }
 
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
 
       const anonymous = document.getElementById("anonymous").checked;
+      const typeInput = document.querySelector('input[name="msgType"]:checked');
 
-      const data = {
-        name: anonymous ? "Anonymous" : document.getElementById("name").value.trim(),
-        contact: document.getElementById("contact").value.trim(),
-        type: document.getElementById("type").value,
-        request: document.getElementById("request").value.trim(),
-        visibility: document.querySelector('input[name="visibility"]:checked').value
-      };
-
-      if (!data.contact || !data.type || !data.request) {
-        showStatus("Pakikumpleto ang required fields.", "error");
+      if (!typeInput) {
+        showStatus("Pakipili ang uri ng mensahe (Prayer Request o Praise Report).", "error");
         return;
       }
 
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Submitting...";
+      const data = {
+        name:       anonymous ? "Anonymous" : document.getElementById("name").value.trim(),
+        contact:    document.getElementById("contact").value.trim(),
+        type:       typeInput.value,
+        request:    document.getElementById("request").value.trim(),
+        visibility: document.querySelector('input[name="visibility"]:checked').value
+      };
+
+      if (!data.contact || !data.request) {
+        showStatus("Pakikumpleto ang lahat ng required fields.", "error");
+        return;
+      }
+
+      submitBtn.disabled    = true;
+      submitBtn.textContent = "Isinusumite...";
 
       try {
         await fetch(SCRIPT_URL, {
           method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8"
-          },
-          body: JSON.stringify(data)
+          mode:   "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body:    JSON.stringify(data)
         });
 
-        showStatus("Na-submit na ang iyong mensahe. Salamat!", "success");
+        showStatus("✓  Na-submit na ang iyong mensahe. Salamat at ipinagdarasal kayo namin!", "success");
         form.reset();
 
-      } catch (error) {
+      } catch (err) {
         showStatus("May error sa submission. Pakisubukan muli.", "error");
       }
 
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Submit";
+      submitBtn.disabled    = false;
+      submitBtn.textContent = "Isumite ang Mensahe";
     });
   </script>
-
 </body>
 </html>
